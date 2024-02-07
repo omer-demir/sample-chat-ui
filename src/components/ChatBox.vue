@@ -23,44 +23,55 @@
 
   </div> -->
   <!-- Component Start -->
-	<div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
-		<div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
-			<template v-for="(chat, index) in chats" :key="index">
-				<!-- Message from system -->
-				<div class="flex w-full mt-2 space-x-3 max-w-xs" v-if="chat.sender === 'system'">
-					<div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-					<div>
-						<div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-							<p class="text-sm">{{ chat.message }}</p>
-						</div>
-						<span class="text-xs text-gray-500 leading-none">2 min ago</span>
-					</div>
-				</div>
-				<!-- Message from user -->
-				<div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end" v-if="chat.sender === 'user'">
-					<div>
-						<div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-							<p class="text-sm">{{ chat.message }}</p>
-						</div>
-						<span class="text-xs text-gray-500 leading-none">2 min ago</span>
-					</div>
-					<div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-				</div>
-			</template>
-		</div>
-		
-		<div class="bg-gray-300 p-4">
-			<textarea class="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" v-model="message" :disabled="loading" 
-    @keydown.enter.prevent="sendChat()"></textarea>
-			<button @click="sendChat" class="bg-blue-500 text-white p-2 mt-2" :disabled="loading">
-				<div v-if="loading" class="animate-spin mr-2 inline-block w-4 h-4 border-2 rounded-full" role="status">
-					<span class="visually-hidden"></span>
-				</div>
-					Send
-			</button>
-		</div>
-	</div>
-	<!-- Component End  -->
+  <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
+    <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
+      <template v-for="(chat, index) in chats" :key="index">
+        <!-- Message from system -->
+        <div class="flex w-full mt-2 space-x-3 max-w-xs" v-if="chat.sender === 'system'">
+          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
+          <div>
+            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
+              <p class="text-sm">{{ chat.message }}</p>
+            </div>
+            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
+          </div>
+        </div>
+        <!-- Message from user -->
+        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end" v-if="chat.sender === 'user'">
+          <div>
+            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
+              <p class="text-sm">{{ chat.message }}</p>
+            </div>
+            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
+          </div>
+          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
+        </div>
+      </template>
+      <div class="flex w-full mt-2 space-x-3 max-w-xs" v-if="loading">
+        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
+        <div>
+          <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
+            <p class="text-sm">loading...</p>
+          </div>
+          <span class="text-xs text-gray-500 leading-none">2 min ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-300 p-4">
+      <textarea class="flex items-center h-10 w-full rounded px-3 text-sm c-textarea" type="text"
+        placeholder="Type your message…" v-model="message" @keydown.enter.prevent="sendChat()"></textarea>
+      <div class="flex btn-center">
+        <button @click="sendChat" class="bg-blue-500 text-white p-2 mt-2" :disabled="loading">
+          <div v-if="loading" class="animate-spin mr-2 inline-block w-4 h-4 border-2 rounded-full animate-center" role="status">
+            <span class="visually-hidden"></span>
+          </div>
+          <span v-if="!loading">Send</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Component End  -->
 </template>
 
 
@@ -79,7 +90,7 @@ export default {
     const api_url = 'http://164.68.105.132:8000';
 
     const sendChat = async () => {
-      if (!message.value) return;
+      if (!message.value || loading.value) return;
       loading.value = true;
       chats.value.push({ sender: 'user', message: message.value });
       const messageToSend = message.value;
@@ -141,5 +152,5 @@ export default {
 </script>
 
 <style>
-/* Add additional styles here */
+
 </style>
