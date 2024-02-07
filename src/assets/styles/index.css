@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.c-textarea {
+    height: 130px;
+    padding: 20px;
+  }
+  
+  .btn-center {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  
+  .animate-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+  }
